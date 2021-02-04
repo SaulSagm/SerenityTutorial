@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Stories</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<!--[if IE 7]>
+<!--<link rel="stylesheet" href="font-awesome/css/font-awesome-ie7.min.css">-->
+
+<link rel="stylesheet" type="text/css" href="fontawesome-free-5.7.2-web/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="fontawesome-free-5.7.2-web/css/v4-shims.min.css">
+
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><link rel="stylesheet" type="text/css" href="chartist/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.css">
+<link rel="stylesheet" type="text/css" href="chartist/dist/chartist.min.css">
+<script src="chartist/dist/chartist.min.js"></script>
+<script src="chartist/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js"></script>
+<!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.10.20/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.10.20/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.10.20/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="datatables/1.10.20/datatables.bootstrap4.min.js"></script>
+<link type="text/css" href="datatables/1.10.20/datatables.bootstrap4.min.css" rel="stylesheet" />
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/><!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.10.20/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.10.20/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.10.20/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="datatables/1.10.20/datatables.bootstrap4.min.js"></script>
+<link type="text/css" href="datatables/1.10.20/datatables.bootstrap4.min.css" rel="stylesheet" />
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            var scenarioTable = $('.scenario-result-table').DataTable({
+
+                "order": [],
+                "language": {
+                    searchPlaceholder: "Filter",
+                    search: ""
+                }
+            });
+
+            $('.example-table table').DataTable({
+                searching: false,
+                ordering: false,
+                paging: false,
+                info: false
+            });
+
+            $('.example-table-in-scenario table').DataTable({
+                searching: false,
+                ordering: false,
+                paging: false,
+                info: false
+            });
+
+            $('#evidence-table').DataTable(
+                    {
+                        searching: false,
+                        ordering: false,
+                        paging: false,
+                        info: false
+                    }
+            );
+
+
+            $(".scenario-docs .card-body table").wrap("<div class='table-responsive'></div>");
+
+            $("#requirements-tabs").tabs();
+            $("#test-tabs").tabs();
+
+            var requirementsTree = [{"text":"Create students data driven test","type":"story","href":"31091d2cf5bc5d0b249c097244be7d53b2a880763de708581466599d2abc874e.html","nodes":[],"selectable":false,"tags":["","\u003cspan class\u003d\u0027feature-count\u0027\u003e1 scenario\u003c/span\u003e"]}];
+
+            $('#tree').treeview({
+                data: requirementsTree,
+                enableLinks: true,
+                showTags: true,
+                expandIcon: "glyphicon glyphicon-folder-close",
+                collapseIcon: "glyphicon glyphicon-folder-open",
+                emptyIcon: "glyphicon glyphicon-book"
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".scenario-docs > div > p").html(function () {
+                var text = $(this).text().trim().split(" ");
+                var first = text.shift();
+                return (text.length > 0 ? "<strong>" + first + "</strong> " : first) + text.join(" ");
+            });
+        });
+    </script>
+</head>
+
+<body class="results-page">
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">StudentApp</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="breadcrumbs">
+            <a href='index.html'>Home</a> > <a href="capabilities.html">Requirements</a>
+
+                > <a href="58ba97b0a9d03bf119311743f92abc468295aec56fc2833cd8c734cec0edbf68.html">Studentsinfo</a>
+
+
+                > <span class="truncate-40">Create Students Data Driven Test</span>
+
+            </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li >
+            <a href="index.html"><i class="fa fa-check-square-o"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="fa fa-book"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="fa fa-comments-o"></i> Features</a>
+        </li>
+        <li class="active">
+            <a href="#"><i class="fa fa-comments-o"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 04-02-2021 15:38</span>
+    <br style="clear:left"/>
+</div>
+
+    <div class="clr"></div>
+
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="table">
+                <div class=row">
+                    <div class="col-sm-12">
+                        <div>
+                            <div clas="table">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                    <span>
+                                            <h2><i class="fa fa-book"></i> Story:  Create Students Data Driven Test</h2>
+                                        </span>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="requirementNarrativeTitle">
+                                
+                            </div>
+
+                        </div>
+                    </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <!-- Requirements result tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#specs"><i class="fas fa-comments"></i> Specifications</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#results"><i class="fas fa-tachometer-alt"></i> Test Results</a>
+                        </li>
+                    </ul>
+
+                    <!-- Specifications and Results tabs -->
+                    <div class="card border">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div id="specs" class="tab-pane fade in active">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+
+
+
+                                            <h3>Scenarios</h3>
+                                            <div id="toc">
+                                                <table class="table" id="toc-table">
+                                                        <tr>
+                                                            <td style="width:95%;" class="toc-title">
+                                                                <a href="#ac7f3a4eb3e5214181a41045b7a2c66439f955996633597101635cd24445b07a" title="View scenario details" >Create multiplestudents</a>
+                                                                     (100 examples)
+
+                                                            </td>
+                                                            <td style="width:5%;">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                               href="e0fce70c49df1f5811d706e6761cab91ed2e6f2091d29abd7ec08dfa1c97e690.html"
+                                                                               title="View test results">
+                                                                            <a href='##beforetable'><i class='fa fa-exclamation-triangle error-icon ' title='ERROR'></i></a>
+                                                                            </a>
+
+                                                                        
+                                                                        </td>
+                                                                        <td>
+                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                               href="e0fce70c49df1f5811d706e6761cab91ed2e6f2091d29abd7ec08dfa1c97e690.html"
+                                                                               title="View test results">
+                                                                                <i class="fas fa-search-plus"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                </table>
+
+                                            </div>
+
+                                            <h3>Scenario details</h3>
+
+                                                <div class="scenario-docs card" id="ac7f3a4eb3e5214181a41045b7a2c66439f955996633597101635cd24445b07a">
+                                                    <div class="scenario-docs card-header error" style="min-height:1.5em;">
+                                                        <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="e0fce70c49df1f5811d706e6761cab91ed2e6f2091d29abd7ec08dfa1c97e690.html" title="View test results">DataDriven Test for adding multiple students to the Student App.</a>
+                                                            </span>
+                                                            <span class="scenario-result-icon">
+                                                                
+
+                                                                    <a href='##beforetable'><i class='fa fa-exclamation-triangle error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="scenario-docs card-body">
+                                                            <p>Creating student with firstName:{FIRSTNAME}, lastName:{LASTNAME}, email:{EMAIL},programmeInformation Science ,courses:[{COURSE}]</p>
+                                                        <div class="examples">
+                                                            <p><p>Examples: null</p>
+<div class='example-table-in-scenario'><table>
+<thead>
+<tr><th>FIRSTNAME</th><th>LASTNAME</th><th>EMAIL</th><th>PROGRAMME</th><th>COURSE</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>Corly</td><td>Tuminelli</td><td>ctuminelli0@ucsd.edu</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Tybi</td><td>McCall</td><td>tmccall1@rambler.ru</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Shaw</td><td>Clarae</td><td>sclarae2@bing.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Darlleen</td><td>Skyrm</td><td>dskyrm3@mediafire.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Zarla</td><td>Briscow</td><td>zbriscow4@newsvine.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Christyna</td><td>Rooze</td><td>crooze5@cbslocal.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Kristal</td><td>Dagwell</td><td>kdagwell6@wunderground.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Kelly</td><td>Reijmers</td><td>kreijmers7@google.co.uk</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Daniel</td><td>Janata</td><td>djanata8@phpbb.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Booth</td><td>Banke</td><td>bbanke9@mashable.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Rad</td><td>Tinson</td><td>rtinsona@yahoo.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Annetta</td><td>Jeandon</td><td>ajeandonb@disqus.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Nance</td><td>Lauga</td><td>nlaugac@elegantthemes.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Ines</td><td>Copson</td><td>icopsond@cocolog-nifty.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Cherry</td><td>Wood</td><td>cwoode@army.mil</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Allistir</td><td>Gillies</td><td>agilliesf@google.es</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Lorenza</td><td>Dominiak</td><td>ldominiakg@mysql.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Buck</td><td>Kelby</td><td>bkelbyh@xrea.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Venus</td><td>Peto</td><td>vpetoi@epa.gov</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Averil</td><td>Edney</td><td>aedneyj@wufoo.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Barney</td><td>Pigott</td><td>bpigottk@nydailynews.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Lee</td><td>Anelay</td><td>lanelayl@bbc.co.uk</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Davon</td><td>McCrea</td><td>dmccream@php.net</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Corinne</td><td>Simpkins</td><td>csimpkinsn@vimeo.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Nikita</td><td>Northridge</td><td>nnorthridgeo@delicious.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Zena</td><td>Smitten</td><td>zsmittenp@nasa.gov</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Sherlocke</td><td>Murby</td><td>smurbyq@simplemachines.org</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Colet</td><td>Goldsbrough</td><td>cgoldsbroughr@mtv.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Clarinda</td><td>Melchior</td><td>cmelchiors@indiatimes.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Cris</td><td>Minshull</td><td>cminshullt@cnet.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Neila</td><td>Keenor</td><td>nkeenoru@dedecms.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Drew</td><td>Yare</td><td>dyarev@hud.gov</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Mair</td><td>Rudgley</td><td>mrudgleyw@slashdot.org</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Magdalen</td><td>Keays</td><td>mkeaysx@newyorker.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Killian</td><td>Montgomery</td><td>kmontgomeryy@issuu.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Ame</td><td>MacTrustam</td><td>amactrustamz@woothemes.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Maddi</td><td>Iacovacci</td><td>miacovacci10@indiatimes.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Kristopher</td><td>Treanor</td><td>ktreanor11@rediff.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Rogers</td><td>Egarr</td><td>regarr12@ed.gov</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Luci</td><td>Mowne</td><td>lmowne13@earthlink.net</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Noel</td><td>Philipson</td><td>nphilipson14@vkontakte.ru</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Goldy</td><td>Arnao</td><td>garnao15@indiegogo.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Ana</td><td>Lecointe</td><td>alecointe16@hubpages.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Oralee</td><td>Ambroise</td><td>oambroise17@chronoengine.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Nicoli</td><td>Kornilyev</td><td>nkornilyev18@123-reg.co.uk</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Letta</td><td>Rosenvasser</td><td>lrosenvasser19@addtoany.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Brendin</td><td>Hedges</td><td>bhedges1a@google.it</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Franky</td><td>Willars</td><td>fwillars1b@state.gov</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Dolf</td><td>Perrelli</td><td>dperrelli1c@goo.ne.jp</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Pattie</td><td>Sollime</td><td>psollime1d@163.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Brena</td><td>Obispo</td><td>bobispo1e@slashdot.org</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Abbe</td><td>Lamperti</td><td>alamperti1f@ucla.edu</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Jesus</td><td>Dunthorn</td><td>jdunthorn1g@epa.gov</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Ashly</td><td>Skellen</td><td>askellen1h@smugmug.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Jed</td><td>Baythrop</td><td>jbaythrop1i@geocities.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Merilyn</td><td>Goddard</td><td>mgoddard1j@patch.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Silvano</td><td>D'Errico</td><td>sderrico1k@state.gov</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Cairistiona</td><td>Bairnsfather</td><td>cbairnsfather1l@howstuffworks.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Otes</td><td>Skews</td><td>oskews1m@fda.gov</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Elli</td><td>Dulanty</td><td>edulanty1n@ifeng.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Stevie</td><td>Consterdine</td><td>sconsterdine1o@icio.us</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Dwayne</td><td>Whickman</td><td>dwhickman1p@umich.edu</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Terrel</td><td>Dethloff</td><td>tdethloff1q@miibeian.gov.cn</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Simone</td><td>Pele</td><td>spele1r@cloudflare.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Normie</td><td>Duckels</td><td>nduckels1s@shinystat.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Mort</td><td>Swires</td><td>mswires1t@census.gov</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Gaspar</td><td>Dupoy</td><td>gdupoy1u@hao123.com</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Alanson</td><td>Kinzett</td><td>akinzett1v@huffingtonpost.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Berkley</td><td>Critten</td><td>bcritten1w@si.edu</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Ty</td><td>Artis</td><td>tartis1x@ehow.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Jacynth</td><td>Oglevie</td><td>joglevie1y@homestead.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Jens</td><td>Barnes</td><td>jbarnes1z@netlog.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Alli</td><td>Swann</td><td>aswann20@twitpic.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Wallas</td><td>Anfosso</td><td>wanfosso21@arstechnica.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Margie</td><td>Relfe</td><td>mrelfe22@angelfire.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Frazier</td><td>Ferrey</td><td>fferrey23@photobucket.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Aurelie</td><td>MacCurlye</td><td>amaccurlye24@house.gov</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Valencia</td><td>Lody</td><td>vlody25@apple.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Rorie</td><td>Swaden</td><td>rswaden26@mit.edu</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Alister</td><td>Duchart</td><td>aduchart27@hexun.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Standford</td><td>Grigg</td><td>sgrigg28@geocities.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Allie</td><td>Kettlestring</td><td>akettlestring29@imageshack.us</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Aguistin</td><td>Bambrough</td><td>abambrough2a@webs.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Starr</td><td>Chafer</td><td>schafer2b@liveinternet.ru</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Anthea</td><td>Cuerdale</td><td>acuerdale2c@yellowbook.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Benson</td><td>Jeandeau</td><td>bjeandeau2d@dailymail.co.uk</td><td>Information Science</td><td>Java</td><td> </td></tr>
+<tr><td>Paul</td><td>Whymark</td><td>pwhymark2e@go.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Willi</td><td>Rhodus</td><td>wrhodus2f@latimes.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Kyle</td><td>Pavlov</td><td>kpavlov2g@nba.com</td><td>Information Science</td><td>C#</td><td> </td></tr>
+<tr><td>Michail</td><td>Flaune</td><td>mflaune2h@reddit.com</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Ailyn</td><td>Algeo</td><td>aalgeo2i@arstechnica.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Lind</td><td>Inge</td><td>linge2j@slashdot.org</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Chloette</td><td>Cristou</td><td>ccristou2k@purevolume.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+<tr><td>Bria</td><td>Winsor</td><td>bwinsor2l@slate.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Meaghan</td><td>Goldney</td><td>mgoldney2m@va.gov</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Jerry</td><td>Tewkesbury</td><td>jtewkesbury2n@addtoany.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Shelley</td><td>Burfoot</td><td>sburfoot2o@mashable.com</td><td>ComputerScience</td><td>Java</td><td> </td></tr>
+<tr><td>Courtnay</td><td>McVity</td><td>cmcvity2p@ustream.tv</td><td>Information Science</td><td>SCALA</td><td> </td></tr>
+<tr><td>Fredi</td><td>Drewett</td><td>fdrewett2q@wufoo.com</td><td>ComputerScience</td><td>C#</td><td> </td></tr>
+<tr><td>Burke</td><td>Tassell</td><td>btassell2r@msn.com</td><td>ComputerScience</td><td>SCALA</td><td> </td></tr>
+</tbody>
+</table></div>
+</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="results" class="tab-pane fade">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+
+                                            <div style="width:300px;" class="chart-container automated-and-manual-results">
+                                                <div class="ct-chart ct-square"></div>
+                                            </div>
+                                            <script>
+
+                                                var labels = ['99%', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1%', ' ', ' ', ' '];
+                                                // Our series array that contains series objects or in this case series data arrays
+
+                                                var series = [{meta: 'Passing tests (automated)', value: 99}, {meta: 'Passing tests (manual)', value: 0}, {meta: 'Pending tests (automated)', value: 0}, {meta: 'Pending tests (manual)', value: 0}, {meta: 'Ignored tests (automated)', value: 0}, {meta: 'Ignored tests (manual)', value: 0}, {meta: 'Skipped tests (automated)', value: 0}, {meta: 'Skipped tests (manual)', value: 0}, {meta: 'Failing tests (automated)', value: 0}, {meta: 'Failing tests (manual)', value: 0}, {meta: 'Broken tests (automated)', value: 1}, {meta: 'Broken tests (manual)', value: 0}, {meta: 'Compromised tests (automated)', value: 0}, {meta: 'Compromised tests (manual)', value: 0}];
+
+                                                // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
+                                                // as you saw in the previous example
+                                                var options = {
+                                                    width: 350,
+                                                    height: 300
+                                                };
+
+                                                $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                                                    new Chartist.Pie('.ct-chart', {
+                                                        series: series,
+                                                        labels: labels,
+                                                    }, {
+                                                        donut: true,
+                                                        donutWidth: 60,
+                                                        donutSolid: true,
+                                                        startAngle: 270,
+                                                        showLabel: true
+                                                    }, options);
+                                                });
+
+                                            </script>
+                                        </div>
+                                        <div class="col-sm-8">
+
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Scenario Results (including rows of test data)</th>
+                                                <th scope="col" colspan="2" class="automated-stats">
+                                                    Automated
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                                    <td class="aggregate-result-count">
+                                                                        <a href="c75325645c1f430ca55b28f3b192b006c07d98cd76c56e2e7dc204abaa2739ef.html"><i
+                                                                                class='fa fa-check-circle-o success-icon'></i>&nbsp;Passing</a>
+                                                                    </td>
+                                                <td class="automated-stats">99</td>
+                                                <td class="automated-stats">99%</td>
+                                            </tr>
+                                            <tr>
+                                                                    <td class="aggregate-result-count"><i
+                                                                            class='fa fa-stop-circle-o pending-icon'></i>&nbsp;Pending
+                                                                    </td>
+                                                <td class="automated-stats">0</td>
+                                                <td class="automated-stats"> </td>
+                                            </tr>
+                                            <tr>
+                                                                <td class="aggregate-result-count"><i
+                                                                        class='fa fa-ban ignored-icon'></i>&nbsp;Ignored
+                                                                </td>
+                                                <td class="automated-stats">0</td>
+                                                <td class="automated-stats"> </td>
+                                            </tr>
+                                            <tr>
+                                                                <td class="aggregate-result-count"><i
+                                                                        class='fa fa-fast-forward skip-icon'></i>&nbsp;Skipped
+                                                                </td>
+                                                <td class="automated-stats">0</td>
+                                                <td class="automated-stats"> </td>
+                                            </tr>
+                                            <tr>
+                                                                             <td colspan="3"><a href="de3cfd4513659d8c267a3ede7e3a3e0727068e3bc52cce362f8bea474154b1ae.html"><i
+                                                                                    class='fa fa-times failure-icon'></i>&nbsp;<em>Unsuccessful</em></a>
+                                                                            </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                                <td class="aggregate-result-count indented-error-category">
+                                                                    <i
+                                                                            class='fa fa-times-circle failure-icon'></i>&nbsp;Failed
+                                                                </td>
+                                                <td class="automated-stats">0</td>
+                                                <td class="automated-stats"> </td>
+                                            <tr>
+                                                                    <td class="aggregate-result-count indented-error-category">
+                                                                        <a href="b311a31ef7630901a882178e8a8f630785a8283d6421cac9a1f21b9cbc3db6f4.html"><i
+                                                                                class='fa fa-exclamation-triangle error-icon'></i>&nbsp;Broken</a>
+                                                                    </td>
+                                                <td class="automated-stats">1</td>
+                                                <td class="automated-stats">1%</td>
+                                            <tr>
+                                                                <td class="aggregate-result-count indented-error-category">
+                                                                    <i
+                                                                            class='fa fa-chain-broken compromised-icon'></i>&nbsp;Compromised
+                                                                </td>
+                                                <td class="automated-stats">0</td>
+                                                <td class="automated-stats"> </td>
+                                            </tr>
+                                            <tr class="summary-stats">
+                                                <td class="aggregate-result-count">Total</td>
+                                                <td class="automated-stats">100</td>
+                                                <td class="automated-stats"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Execution Time</th>
+                                                        <th>Clock Time</th>
+                                                        <th>Fastest Test</th>
+                                                        <th>Slowest Test</th>
+                                                        <th>Average Execution Time</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>23s</td>
+                                                        <td>0ms</td>
+                                                        <td>8ms</td>
+                                                        <td>4s</td>
+                                                        <td>23s</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3><i class="fas fa-cogs"></i> Automated Tests</h3>
+
+                                            <table class="scenario-result-table table" id="scenario-results">
+                                                <thead>
+                                                <tr>
+                                                    <th class="test-name-column">Scenario</th>
+                                                    <th>Steps</th>
+                                                    <th>Start Time</th>
+                                                    <th>Duration</th>
+                                                    <th>Result</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr class="scenario-result ERROR">
+                                                    <td>
+                                                            <a href="e0fce70c49df1f5811d706e6761cab91ed2e6f2091d29abd7ec08dfa1c97e690.html">DataDriven Test for adding multiple students to the Student App.</a>
+                                                               (100 examples)
+                                                    </td>
+                                                    <td>1</td>
+                                                    <td>15:38:32</td>
+                                                    <td>23s 723ms</td>
+                                                    <td>
+                                                            <a href='##beforetable'><i class='fa fa-exclamation-triangle error-icon ' title='ERROR'></i></a> <span
+                                                                style="display:none">ERROR</span>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3><i class="fas fa-edit"></i> Manual Tests</h3>
+
+                                                No manual tests were recorded
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="version">Serenity BDD version 2.3.12</span>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>

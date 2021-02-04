@@ -1,0 +1,5 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Create students data driven test","DataDriven Test for adding multiple students to the Student App.","ERROR","2021-02-04T15:38:32.8290821-06:00[America/Mexico_City]","0.0","23.72"
+"First serenity test","This is atest with error","ERROR","2021-02-04T15:38:36.236105-06:00[America/Mexico_City]","0.0","0.36"
+"First serenity test","This isa failing","FAILURE","2021-02-04T15:38:37.9575415-06:00[America/Mexico_City]","0.0","0.48"
+"First serenity test","File does not exist","COMPROMISED","2021-02-04T15:38:38.4408347-06:00[America/Mexico_City]","0.0","0.45"

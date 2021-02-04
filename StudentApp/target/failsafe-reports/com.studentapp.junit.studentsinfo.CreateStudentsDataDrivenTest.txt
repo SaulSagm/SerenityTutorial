@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.studentapp.junit.studentsinfo.CreateStudentsDataDrivenTest
+-------------------------------------------------------------------------------
+Tests run: 100, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 40.33 sec <<< FAILURE! - in com.studentapp.junit.studentsinfo.CreateStudentsDataDrivenTest
+createMultiplestudents[20](com.studentapp.junit.studentsinfo.CreateStudentsDataDrivenTest)  Time elapsed: 0.008 sec  <<< ERROR!
+java.util.EmptyStackException: null
+	at com.studentapp.junit.studentsinfo.CreateStudentsDataDrivenTest.createMultiplestudents(CreateStudentsDataDrivenTest.java:87)
+
